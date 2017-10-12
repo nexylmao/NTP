@@ -1,0 +1,7 @@
+C:\Users\nexay\Documents\GitHub\NTP\Matrica\Matrica\bin\Debug\Matrica.exe.config
+C:\Users\nexay\Documents\GitHub\NTP\Matrica\Matrica\bin\Debug\Matrica.exe
+C:\Users\nexay\Documents\GitHub\NTP\Matrica\Matrica\bin\Debug\Matrica.pdb
+C:\Users\nexay\Documents\GitHub\NTP\Matrica\Matrica\obj\Debug\Matrica.csprojResolveAssemblyReference.cache
+C:\Users\nexay\Documents\GitHub\NTP\Matrica\Matrica\obj\Debug\Matrica.csproj.CoreCompileInputs.cache
+C:\Users\nexay\Documents\GitHub\NTP\Matrica\Matrica\obj\Debug\Matrica.exe
+C:\Users\nexay\Documents\GitHub\NTP\Matrica\Matrica\obj\Debug\Matrica.pdb

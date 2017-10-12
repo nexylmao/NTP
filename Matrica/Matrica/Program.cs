@@ -36,10 +36,10 @@ namespace Matrica
         {
             string x = string.Empty;
 
-            x += "\n { ";
+            x += "\n{";
             for (int i = 0; i < BrojRedova(); i++)
             {
-                x += " ( ";
+                x += "\n( ";
                 for(int j = 0; j < BrojKolona(); j++)
                 {
                     x += string.Format(" {0} ", Vrednosti[i, j]);
@@ -50,7 +50,7 @@ namespace Matrica
                 }
                 x += " ) ";
             }
-            x += " } ";
+            x += "\n}\n";
 
             return x;
         }
@@ -117,7 +117,11 @@ namespace Matrica
     {
         static void Main(string[] args)
         {
-
+            Matrica jedan = Matrica.UnosConsole();
+            jedan.Print();
+            jedan.Invert();
+            jedan.Print();
+            System.Threading.Thread.Sleep(9000);
         }
     }
 }
