@@ -11,10 +11,10 @@ namespace SpregnutaLista
         static void Main(string[] args)
         {
             Lista prvi = new Lista();
-            prvi.AddToEnd(new Ucenik("Pero jebeni", "Peric"));
-            prvi.AddToEnd(new Ucenik("Pero jebeni", "Peric 2"));
-            prvi.AddToStart(new Ucenik("Pero jebeni", "Peric najveci"));
-            prvi.AddToEnd(new Ucenik("Pero jebeni", "Peric 3"));
+            prvi.AddToEnd(new Ucenik("Pero", "Peric I"));
+            prvi.AddToEnd(new Ucenik("Pero", "Peric II Perin Mali"));
+            prvi.AddToStart(new Ucenik("Pero", "Peric III Veliki"));
+            prvi.AddToEnd(new Ucenik("Pero", "Peric Pericic IV Nejaki"));
             prvi.Obrisi(2);
             prvi.Print();
 

@@ -96,6 +96,37 @@ namespace SpregnutaLista
             }
             return x;
         }
+        public bool IsEmpty()
+        {
+            if(Broj() == 0)
+            {
+                return true;
+            }
+            return false;
+        }
+        public Ucenik PrviUcenik()
+        {
+            return Prvi.Ucenik;
+        }
+        public void ObrisiPrvi(int n)
+        {
+            try
+            {
+                if (!(Prvi == null))
+                {
+                    Element search = Prvi;
+                    while(search != null)
+                    {
+                        search = search.Pointer;
+                    }
+                    Prvi = search;
+                }
+            }
+            catch
+            {
+                Console.WriteLine("PUCE!");
+            }
+        }
         public override string ToString()
         {
             string x = string.Empty;
