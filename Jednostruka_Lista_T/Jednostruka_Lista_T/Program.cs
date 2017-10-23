@@ -10,7 +10,11 @@ namespace Lista
     {
         static void Main(string[] args)
         {
-            
+            List<int> x = new List<int>();
+            x.Add(9);
+            int y = x[0];
+            Console.WriteLine(y);
+            Console.ReadKey();
         }
     }
 }

@@ -26,6 +26,24 @@ namespace Lista
         #endregion
 
         #region Properties
+        public T this[int index]
+        {
+            get
+            {
+                try
+                {
+                    return Indexing(index).Value;
+                }
+                catch
+                {
+                    return default(T);
+                }
+            }
+            set
+            {
+                Indexing(index).Value = value;
+            }
+        }
         public uint Limit
         {
             get
@@ -109,18 +127,33 @@ namespace Lista
         }
         private Element<T> Last()
         {
-            if(First == null)
+            if (First == null)
             {
                 return null;
             }
             else
             {
                 Element<T> Search = First;
-                while(Search.Next != null)
+                while (Search.Next != null)
                 {
                     Search = Search.Next;
                 }
                 return Search;
+            }
+        }
+        private bool CanAdd(uint number = 1)
+        {
+            if(Limiter == 0)
+            {
+                return true;
+            }
+            if (Count + number <= Limiter)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
         #endregion
@@ -133,7 +166,18 @@ namespace Lista
         }
         public void Add(T newValue)
         {
-            LastElement.Next = new Element<T>(newValue, LastElement.Next);
+            if(!CanAdd())
+            {
+                return;
+            }
+            if(First == null)
+            {
+                First = new Element<T>(newValue, First);
+            }
+            else
+            {
+                LastElement.Next = new Element<T>(newValue, LastElement.Next);
+            }
         }
         public bool Remove(T toFind)
         {
@@ -154,6 +198,10 @@ namespace Lista
         }
         public bool Insert(T newValue, int Index)
         {
+            if(!CanAdd())
+            {
+
+            }
             if(First == null)
             {
                 return false;
@@ -204,8 +252,12 @@ namespace Lista
                 }
             }
         }
-        public void AddList(IEnumerable<T> Elements)
+        public void AddList(ICollection<T> Elements)
         {
+            if(!CanAdd(Convert.ToUInt32(Elements.Count)))
+            {
+                return;
+            }
             foreach(T x in Elements)
             {
                 Add(x);
