@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,7 +19,7 @@ namespace Lista
         }
     }
 
-    public class List<T>
+    public class List<T> : IEnumerable<T>
     {
         #region Fields
         public Element<T> First;
@@ -163,6 +164,16 @@ namespace Lista
         {
             First = null;
             Limiter = x;
+        }
+        public List(IEnumerable<T> list)
+        {
+            if(list != null)
+            {
+                foreach(T x in list)
+                {
+                    Add(x);
+                }
+            }
         }
         public void Add(T newValue)
         {
@@ -351,6 +362,18 @@ namespace Lista
                 Array[i] = Indexing(i).Value;
             }
             return Array;
+        }
+
+        
+        // DONT KNOW HOW TO FIX THIS, NEEDED TO MAKE foreach WORK!
+        public IEnumerator<T> GetEnumerator()
+        {
+            throw new NotImplementedException();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            throw new NotImplementedException();
         }
         #endregion
     }
