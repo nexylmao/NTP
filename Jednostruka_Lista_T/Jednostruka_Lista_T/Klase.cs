@@ -11,7 +11,6 @@ namespace Lista
     {
         public T Value;
         public Element<T> Next;
-
         public Element(T newValue, Element<T> nextElement)
         {
             Value = newValue;
@@ -144,7 +143,7 @@ namespace Lista
         }
         private bool CanAdd(uint number = 1)
         {
-            if(Limiter == 0)
+            if (Limiter == 0)
             {
                 return true;
             }
@@ -167,9 +166,9 @@ namespace Lista
         }
         public List(IEnumerable<T> list)
         {
-            if(list != null)
+            if (list != null)
             {
-                foreach(T x in list)
+                foreach (T x in list)
                 {
                     Add(x);
                 }
@@ -177,11 +176,11 @@ namespace Lista
         }
         public void Add(T newValue)
         {
-            if(!CanAdd())
+            if (!CanAdd())
             {
                 return;
             }
-            if(First == null)
+            if (First == null)
             {
                 First = new Element<T>(newValue, First);
             }
@@ -192,14 +191,14 @@ namespace Lista
         }
         public bool Remove(T toFind)
         {
-            if(First == null)
+            if (First == null)
             {
                 return false;
             }
             else
             {
                 Element<T> Search = First;
-                while(!(toFind.Equals(Search.Next.Value)))
+                while (!(toFind.Equals(Search.Next.Value)))
                 {
                     Search.Next = Search.Next.Next;
                     return true;
@@ -209,11 +208,11 @@ namespace Lista
         }
         public bool Insert(T newValue, int Index)
         {
-            if(!CanAdd())
+            if (!CanAdd())
             {
 
             }
-            if(First == null)
+            if (First == null)
             {
                 return false;
             }
@@ -229,7 +228,7 @@ namespace Lista
         }
         public bool RemoveFirst()
         {
-            if(First == null)
+            if (First == null)
             {
                 return false;
             }
@@ -241,7 +240,7 @@ namespace Lista
         }
         public bool DeleteFirstN(uint N)
         {
-            if(First == null || Count < N)
+            if (First == null || Count < N)
             {
                 return false;
             }
@@ -265,18 +264,18 @@ namespace Lista
         }
         public void AddList(ICollection<T> Elements)
         {
-            if(!CanAdd(Convert.ToUInt32(Elements.Count)))
+            if (!CanAdd(Convert.ToUInt32(Elements.Count)))
             {
                 return;
             }
-            foreach(T x in Elements)
+            foreach (T x in Elements)
             {
                 Add(x);
             }
         }
         public int IndexOf(T SearchValue)
         {
-            if(First == null)
+            if (First == null)
             {
                 return 0;
             }
@@ -284,9 +283,9 @@ namespace Lista
             {
                 int x = 1;
                 Element<T> Search = First;
-                while(Search != null)
+                while (Search != null)
                 {
-                    if(Search.Value.Equals(SearchValue))
+                    if (Search.Value.Equals(SearchValue))
                     {
                         return x;
                     }
@@ -298,16 +297,16 @@ namespace Lista
         }
         public bool Contains(T SearchValue)
         {
-            if(First == null)
+            if (First == null)
             {
                 return false;
             }
             else
             {
                 Element<T> Search = First;
-                while(Search != null)
+                while (Search != null)
                 {
-                    if(Search.Value.Equals(SearchValue))
+                    if (Search.Value.Equals(SearchValue))
                     {
                         return true;
                     }
@@ -322,17 +321,17 @@ namespace Lista
         }
         public Element<T> Indexing(int i)
         {
-            if(First == null)
+            if (First == null)
             {
                 return null;
             }
             else
             {
                 Element<T> Search = First;
-                for(uint x = 0; x <= i; x++)
+                for (uint x = 0; x <= i; x++)
                 {
                     Search = Search.Next;
-                    if(x == i)
+                    if (x == i)
                     {
                         return Search;
                     }
@@ -342,9 +341,9 @@ namespace Lista
         }
         public void ForEach(Action<T> x)
         {
-            if(!(First == null))
+            if (!(First == null))
             {
-                for(int i = 0; i < Count; i++)
+                for (int i = 0; i < Count; i++)
                 {
                     x(Indexing(i).Value);
                 }
@@ -357,14 +356,14 @@ namespace Lista
         public T[] ToArray()
         {
             T[] Array = new T[Count];
-            for(int i = 0; i < Count; i++)
+            for (int i = 0; i < Count; i++)
             {
                 Array[i] = Indexing(i).Value;
             }
             return Array;
         }
 
-        
+
         // DONT KNOW HOW TO FIX THIS, NEEDED TO MAKE foreach WORK!
         public IEnumerator<T> GetEnumerator()
         {
@@ -377,4 +376,5 @@ namespace Lista
         }
         #endregion
     }
+
 }
