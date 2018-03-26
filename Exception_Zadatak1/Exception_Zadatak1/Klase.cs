@@ -109,9 +109,9 @@ namespace Exception_Zadatak1
         public Prodavnica(int BrojKasa)
         {
             Kase = new List<Kasa>(BrojKasa);
-            foreach(Kasa k in Kase)
+            for(int i = 0; i < Kase.Capacity; i++)
             {
-                k = new Kasa();
+                Kase[i] = new Kasa();
             }
         }
     }

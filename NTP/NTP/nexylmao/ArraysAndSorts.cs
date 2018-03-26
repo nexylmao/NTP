@@ -35,5 +35,16 @@ namespace NTP.nexylmao.Sorting
                 }
             }
         }
+
+        public static void Hello()
+        {
+            Queue<string> x = new Queue<string>();
+            x.Enqueue("Hello");
+            string y = x.Dequeue();
+            foreach(string j in x.ToArray())
+            {
+                Console.WriteLine(j);
+            }
+        }
     }
 }
