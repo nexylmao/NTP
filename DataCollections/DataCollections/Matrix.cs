@@ -29,13 +29,13 @@ namespace DataCollections
             Connections[index1, index2] = false;
             Connections[index2, index1] = false;
         }
-        public bool isConnected(int index1, int index2)
+        public bool IsConnected(int index1, int index2)
         {
             return Connections[index1, index2];
         }
         public bool PathExists(int index1, int index2)
         {
-            if(isConnected(index1, index2))
+            if(IsConnected(index1, index2))
             {
                 return true;
             }
@@ -110,6 +110,10 @@ namespace DataCollections
                 }
             }
         }
+        public string BFSQuickestPath(int index1, int index2)
+        {
+            return BFSAllPaths(index1, index2).OrderBy(c => c.Length).FirstOrDefault();
+        }
 
         public string[] DFSAllPaths(int index1, int index2)
         {
@@ -152,6 +156,10 @@ namespace DataCollections
                     }
                 }
             }
+        }
+        public string DFSQuickestPath(int index1, int index2)
+        {
+            return DFSAllPaths(index1, index2).OrderBy(c => c.Length).FirstOrDefault();
         }
     }
 }

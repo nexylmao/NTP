@@ -74,22 +74,7 @@ namespace Test
                     if (i == j)
                         continue;
                     Console.WriteLine("Paths from " + i + " to " + j + " !");
-                    Console.WriteLine("BFS");
-                    List<string> Paths = new List<string>(x.BFSAllPaths(i, j));
-                    if (Paths.Count == 0)
-                    {
-                        Console.BackgroundColor = ConsoleColor.Red;
-                        Console.ForegroundColor = ConsoleColor.Black;
-                        Console.Write("No paths found!");
-                        Console.ResetColor();
-                        Console.WriteLine();
-                    }
-                    foreach (string Path in Paths)
-                    {
-                        Console.WriteLine(Path);
-                    }
-                    Console.WriteLine("DFS");
-                    Paths = new List<string>(x.DFSAllPaths(i, j));
+                    List<string> Paths = new List<string>(x.DFSAllPaths(i, j));
                     if (Paths.Count == 0)
                     {
                         Console.BackgroundColor = ConsoleColor.Red;
