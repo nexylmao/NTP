@@ -5,6 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using DataCollections;
 
+/// <summary>
+/// This main tests the class Graph -> and the paths methods
+/// </summary>
+
 namespace Test
 {
     class Program
@@ -40,8 +44,8 @@ namespace Test
 
         static void Main(string[] args)
         {
-            int VertacyCount = 10;
-            int EdgesCount = 10;
+            int VertacyCount = 40;
+            int EdgesCount = 60;
 
             Graph x = new Graph(VertacyCount);
             for (int i = 0; i < x.Size; i++)
@@ -89,6 +93,12 @@ namespace Test
                     }
                 }
             }
+
+            int one = r.Next(0, x.Size);
+            int two = r.Next(0, x.Size);
+
+            Console.WriteLine("Quickest path from " + one + " -> " + two);
+            Console.WriteLine(x.BFSQuickestPath(one,two));
 
             Console.ReadKey();
         }

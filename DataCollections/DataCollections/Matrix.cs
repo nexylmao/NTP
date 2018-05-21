@@ -6,10 +6,16 @@ using System.Threading.Tasks;
 
 namespace DataCollections
 {
+    /// <summary>
+    /// This class represents an abstract data-type of a graph, symmetric and non-weighted.
+    /// Represented by a matrix of booleans to handle the connections
+    /// </summary>
+    
+    // there is a flaw while writing the path here!
     public class Graph
     {
         public string[] Data;
-        public bool[,] Connections;
+        public bool[,] Connections { get; }
 
         public int Size { get => Data.Length; }
 
@@ -162,4 +168,229 @@ namespace DataCollections
             return DFSAllPaths(index1, index2).OrderBy(c => c.Length).FirstOrDefault();
         }
     }
+
+
+    public class MatrixGraph<DataType, ConnectionType> where ConnectionType: struct
+    {
+        public DataType[] Data;
+        public ConnectionType[,] Connections { get; }
+        bool symmetric;
+
+        public int Size { get => Data.Length; }
+
+        public MatrixGraph(int Size, bool Symmetric = true)
+        {
+            Data = new DataType[Size];
+            Connections = new ConnectionType[Size, Size];
+            symmetric = Symmetric;
+        }
+        
+        public void Connect(int index1, int index2, ConnectionType weight)
+        {
+            Connections[index1, index2] = weight;
+            if(symmetric)
+            {
+                Connections[index2, index1] = weight;
+            }
+        }
+        public void Disconnect(int index1, int index2)
+        {
+            Connections[index1, index2] = default(ConnectionType);
+            if(symmetric)
+            {
+                Connections[index2, index1] = default(ConnectionType);
+            }
+        }
+        public bool IsConnected(int index1, int index2)
+        {
+            if(Comparer<ConnectionType>.Default.Compare(Connections[index1, index2], default(ConnectionType)) == 0)
+            {
+                return false;
+            }
+            return true;
+        }
+        public bool PathExists(int index1, int index2)
+        {
+            if (IsConnected(index1, index2))
+            {
+                return true;
+            }
+            else
+            {
+                Stack<int> Visitlist = new Stack<int>();
+                HashSet<int> Visited = new HashSet<int>();
+                Visitlist.Push(index1);
+                while (Visitlist.Any())
+                {
+                    int index = Visitlist.Pop();
+                    Visited.Add(index);
+                    if (index == index2)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        for (int i = 0; i < Size; i++)
+                        {
+                            if (Comparer<ConnectionType>.Default.Compare(Connections[index, i], default(ConnectionType)) != 0 && !Visited.Contains(i))
+                            {
+                                Visitlist.Push(i);
+                            }
+                        }
+                    }
+                }
+                return false;
+            }
+        }
+
+        internal int lastindex, index;
+
+        public Dictionary<string, List<ConnectionType>> BFSAllPaths(int index1, int index2)
+        {
+            lastindex = -1;
+            index = -1;
+            Dictionary<string, List<ConnectionType>> Paths = new Dictionary<string, List<ConnectionType>>();
+            Queue<int> Visitlist = new Queue<int>();
+            Stack<int> Visited = new Stack<int>();
+            Stack<ConnectionType> VisitedWeights = new Stack<ConnectionType>();
+            Visitlist.Enqueue(index1);
+            BFS(Visitlist, Visited, VisitedWeights, index2, Paths);
+            return Paths;
+        }
+        void BFS(Queue<int> visitlist, Stack<int> visited, Stack<ConnectionType> visitedweight, int target, Dictionary<string, List<ConnectionType>> paths)
+        {
+            lastindex = index;
+            index = visitlist.Dequeue();
+            visited.Push(index);
+            if(lastindex != -1)
+            {
+                visitedweight.Push(Connections[lastindex, index]);
+            }
+            if (index == target)
+            {
+                Stack<int> thispath = new Stack<int>(visited);
+                string path = "";
+                while (thispath.Any())
+                {
+                    path += string.Format(" {0} ", thispath.Pop());
+                    if (thispath.Count != 0)
+                    {
+                        path += " -> ";
+                    }
+                }
+                paths.Add(path, new List<ConnectionType>(visitedweight.Reverse()));
+            }
+            else
+            {
+                List<int> vstd = new List<int>(visited);
+                for (int i = 0; i < Size; i++)
+                {
+                    if (Comparer<ConnectionType>.Default.Compare(Connections[i, index], default(ConnectionType)) != 0 && !vstd.Contains(i))
+                    {
+                        visitlist.Enqueue(i);
+                        BFS(visitlist, visited, visitedweight, target, paths);
+                        visited.Pop();
+                        visitedweight.Pop();
+                    }
+                }
+            }
+        }
+
+        public Dictionary<string, List<ConnectionType>> DFSAllPaths(int index1, int index2)
+        {
+            lastindex = -1;
+            index = -1;
+            Dictionary<string, List<ConnectionType>> Paths = new Dictionary<string, List<ConnectionType>>();
+            Stack<int> Visitlist = new Stack<int>();
+            Stack<int> Visited = new Stack<int>();
+            Stack<ConnectionType> VisitedWeights = new Stack<ConnectionType>();
+            Visitlist.Push(index1);
+            DFS(Visitlist, Visited, VisitedWeights, index2, Paths);
+            return Paths;
+        }
+        void DFS(Stack<int> visitlist, Stack<int> visited, Stack<ConnectionType> visitedweight, int target, Dictionary<string, List<ConnectionType>> paths)
+        {
+            lastindex = index;
+            index = visitlist.Pop();
+            visited.Push(index);
+            if (lastindex != -1)
+            {
+                visitedweight.Push(Connections[lastindex, index]);
+            }
+            if (index == target)
+            {
+                Stack<int> thispath = new Stack<int>(visited);
+                string path = "";
+                while (thispath.Any())
+                {
+                    path += string.Format(" {0} ", thispath.Pop());
+                    if (thispath.Count != 0)
+                    {
+                        path += " -> ";
+                    }
+                }
+                paths.Add(path, new List<ConnectionType>(visitedweight.Reverse()));
+            }
+            else
+            {
+                for (int i = 0; i < Size; i++)
+                {
+                    if (Comparer<ConnectionType>.Default.Compare(Connections[index, i], default(ConnectionType)) != 0 && !visited.Contains(i))
+                    {
+                        visitlist.Push(i);
+                        DFS(visitlist, visited, visitedweight, target, paths);
+                        visited.Pop();
+                        visitedweight.Pop();
+                    }
+                }
+            }
+        }
+
+        public struct PathInfo
+        {
+            public string Path;
+            public List<ConnectionType> Weights;
+        }
+
+        public PathInfo BFSQuickestPath(int index1, int index2)
+        {
+            Dictionary<string, List<ConnectionType>> result = BFSAllPaths(index1, index2);
+
+            try
+            {
+                List<string> Paths = result.Keys.ToList();
+                string Quickest = Paths.OrderBy(c => c.Length).FirstOrDefault();
+                List<ConnectionType> Weights = result[Quickest];
+                return new PathInfo()
+                {
+                    Path = Quickest,
+                    Weights = Weights
+                };
+            }
+            catch
+            {
+                return new PathInfo()
+                {
+                    Path = "",
+                    Weights = null
+                };
+            }
+        }
+        public PathInfo DFSQuickestPath(int index1, int index2)
+        {
+            Dictionary<string, List<ConnectionType>> result = DFSAllPaths(index1, index2);
+
+            List<string> Paths = result.Keys.ToList();
+            string Quickest = Paths.OrderBy(c => c.Length).FirstOrDefault();
+            List<ConnectionType> Weights = result[Quickest];
+
+            return new PathInfo()
+            {
+                Path = Quickest,
+                Weights = Weights
+            };
+        }
+        
+    }
+
 }
