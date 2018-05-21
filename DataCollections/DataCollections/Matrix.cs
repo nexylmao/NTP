@@ -243,12 +243,11 @@ namespace DataCollections
             }
         }
 
-        internal int lastindex, index;
+        internal int indexpass;
 
         public Dictionary<string, List<ConnectionType>> BFSAllPaths(int index1, int index2)
         {
-            lastindex = -1;
-            index = -1;
+            indexpass = -1;
             Dictionary<string, List<ConnectionType>> Paths = new Dictionary<string, List<ConnectionType>>();
             Queue<int> Visitlist = new Queue<int>();
             Stack<int> Visited = new Stack<int>();
@@ -259,8 +258,9 @@ namespace DataCollections
         }
         void BFS(Queue<int> visitlist, Stack<int> visited, Stack<ConnectionType> visitedweight, int target, Dictionary<string, List<ConnectionType>> paths)
         {
-            lastindex = index;
-            index = visitlist.Dequeue();
+            int lastindex = indexpass;
+            int index = visitlist.Dequeue();
+            indexpass = index;
             visited.Push(index);
             if(lastindex != -1)
             {
@@ -298,8 +298,7 @@ namespace DataCollections
 
         public Dictionary<string, List<ConnectionType>> DFSAllPaths(int index1, int index2)
         {
-            lastindex = -1;
-            index = -1;
+            indexpass = -1;
             Dictionary<string, List<ConnectionType>> Paths = new Dictionary<string, List<ConnectionType>>();
             Stack<int> Visitlist = new Stack<int>();
             Stack<int> Visited = new Stack<int>();
@@ -310,8 +309,9 @@ namespace DataCollections
         }
         void DFS(Stack<int> visitlist, Stack<int> visited, Stack<ConnectionType> visitedweight, int target, Dictionary<string, List<ConnectionType>> paths)
         {
-            lastindex = index;
-            index = visitlist.Pop();
+            int lastindex = indexpass;
+            int index = visitlist.Pop();
+            indexpass = index;
             visited.Push(index);
             if (lastindex != -1)
             {

@@ -33,7 +33,7 @@ namespace Test2
                 {
                     if (connections[j, i] > 0)
                     {
-                        Console.BackgroundColor = ConsoleColor.Green;
+                        Console.BackgroundColor = ConsoleColor.White;
                     }
                     else if (connections[j, i] == 0)
                     {
@@ -54,7 +54,7 @@ namespace Test2
         {
             int VertacyCount = 5;
             int EdgesCount = 5;
-            bool Symmetric = true;
+            bool Symmetric = false;
 
             MatrixGraph<string, float> x = new MatrixGraph<string, float>(VertacyCount, Symmetric);
             for(int i = 0; i < VertacyCount; i++)
@@ -87,7 +87,7 @@ namespace Test2
                 {
                     if (i == j)
                         continue;
-                    Console.BackgroundColor = ConsoleColor.Green;
+                    Console.BackgroundColor = ConsoleColor.White;
                     Console.ForegroundColor = ConsoleColor.Black;
                     Console.Write("Paths from " + i + " to " + j + " !");
                     Console.ResetColor();
