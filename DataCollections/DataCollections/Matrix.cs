@@ -243,42 +243,46 @@ namespace DataCollections
             }
         }
 
-        internal int indexpass;
+        internal int startindex, indexpass;
 
         public Dictionary<string, List<ConnectionType>> BFSAllPaths(int index1, int index2)
         {
             indexpass = -1;
+            startindex = index1;
             Dictionary<string, List<ConnectionType>> Paths = new Dictionary<string, List<ConnectionType>>();
             Queue<int> Visitlist = new Queue<int>();
             Stack<int> Visited = new Stack<int>();
-            Stack<ConnectionType> VisitedWeights = new Stack<ConnectionType>();
             Visitlist.Enqueue(index1);
-            BFS(Visitlist, Visited, VisitedWeights, index2, Paths);
+            BFS(Visitlist, Visited, index2, Paths);
             return Paths;
         }
-        void BFS(Queue<int> visitlist, Stack<int> visited, Stack<ConnectionType> visitedweight, int target, Dictionary<string, List<ConnectionType>> paths)
+        void BFS(Queue<int> visitlist, Stack<int> visited, int target, Dictionary<string, List<ConnectionType>> paths)
         {
             int lastindex = indexpass;
             int index = visitlist.Dequeue();
             indexpass = index;
             visited.Push(index);
-            if(lastindex != -1)
-            {
-                visitedweight.Push(Connections[lastindex, index]);
-            }
             if (index == target)
             {
                 Stack<int> thispath = new Stack<int>(visited);
+                List<ConnectionType> weights = new List<ConnectionType>();
                 string path = "";
+                int lxyz, xyz = -1;
                 while (thispath.Any())
                 {
-                    path += string.Format(" {0} ", thispath.Pop());
+                    lxyz = xyz;
+                    xyz = thispath.Pop();
+                    if(lxyz != -1)
+                    {
+                        weights.Add(Connections[lxyz, xyz]);
+                    }
+                    path += string.Format(" {0} ", xyz);
                     if (thispath.Count != 0)
                     {
                         path += " -> ";
                     }
                 }
-                paths.Add(path, new List<ConnectionType>(visitedweight.Reverse()));
+                paths.Add(path, weights);
             }
             else
             {
@@ -288,9 +292,8 @@ namespace DataCollections
                     if (Comparer<ConnectionType>.Default.Compare(Connections[i, index], default(ConnectionType)) != 0 && !vstd.Contains(i))
                     {
                         visitlist.Enqueue(i);
-                        BFS(visitlist, visited, visitedweight, target, paths);
+                        BFS(visitlist, visited, target, paths);
                         visited.Pop();
-                        visitedweight.Pop();
                     }
                 }
             }
@@ -298,38 +301,41 @@ namespace DataCollections
 
         public Dictionary<string, List<ConnectionType>> DFSAllPaths(int index1, int index2)
         {
-            indexpass = -1;
+            startindex = index1;
             Dictionary<string, List<ConnectionType>> Paths = new Dictionary<string, List<ConnectionType>>();
             Stack<int> Visitlist = new Stack<int>();
             Stack<int> Visited = new Stack<int>();
-            Stack<ConnectionType> VisitedWeights = new Stack<ConnectionType>();
             Visitlist.Push(index1);
-            DFS(Visitlist, Visited, VisitedWeights, index2, Paths);
+            DFS(Visitlist, Visited, index2, Paths);
             return Paths;
         }
-        void DFS(Stack<int> visitlist, Stack<int> visited, Stack<ConnectionType> visitedweight, int target, Dictionary<string, List<ConnectionType>> paths)
+        void DFS(Stack<int> visitlist, Stack<int> visited, int target, Dictionary<string, List<ConnectionType>> paths)
         {
             int lastindex = indexpass;
             int index = visitlist.Pop();
             indexpass = index;
             visited.Push(index);
-            if (lastindex != -1)
-            {
-                visitedweight.Push(Connections[lastindex, index]);
-            }
             if (index == target)
             {
                 Stack<int> thispath = new Stack<int>(visited);
+                List<ConnectionType> weights = new List<ConnectionType>();
                 string path = "";
+                int lxyz, xyz = -1;
                 while (thispath.Any())
                 {
-                    path += string.Format(" {0} ", thispath.Pop());
+                    lxyz = xyz;
+                    xyz = thispath.Pop();
+                    if(lxyz != -1)
+                    {
+                        weights.Add(Connections[lxyz, xyz]);
+                    }
+                    path += string.Format(" {0} ", xyz);
                     if (thispath.Count != 0)
                     {
                         path += " -> ";
                     }
                 }
-                paths.Add(path, new List<ConnectionType>(visitedweight.Reverse()));
+                paths.Add(path, weights);
             }
             else
             {
@@ -338,9 +344,8 @@ namespace DataCollections
                     if (Comparer<ConnectionType>.Default.Compare(Connections[index, i], default(ConnectionType)) != 0 && !visited.Contains(i))
                     {
                         visitlist.Push(i);
-                        DFS(visitlist, visited, visitedweight, target, paths);
+                        DFS(visitlist, visited, target, paths);
                         visited.Pop();
-                        visitedweight.Pop();
                     }
                 }
             }
