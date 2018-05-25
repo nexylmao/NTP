@@ -52,8 +52,8 @@ namespace Test2
 
         static void Main(string[] args)
         {
-            int VertacyCount = 5;
-            int EdgesCount = 5;
+            int VertacyCount = 10;
+            int EdgesCount = 20;
             bool Symmetric = false;
 
             MatrixGraph<string, float> x = new MatrixGraph<string, float>(VertacyCount, Symmetric);
@@ -68,7 +68,7 @@ namespace Test2
                 int index2 = r.Next(0, x.Size);
                 if(index1 != index2)
                 {
-                    x.Connect(index1, index2, r.Next(-5, 6));
+                    x.Connect(index1, index2, r.Next(0, 11));
                     i++;
                 }
             }
@@ -111,7 +111,7 @@ namespace Test2
                         Console.Write("\t");
                         Console.BackgroundColor = ConsoleColor.White;
                         Console.ForegroundColor = ConsoleColor.Black;
-                        Console.Write("Path weight : " + Paths.Values.ToList()[k].Sum());
+                        Console.Write("Path weight : " + Paths.Values.ToList()[k].Sum() + "\t Path grade: " + (Paths.Values.ToList()[k].Sum())/Paths.Values.ToList()[k].Count());
                         Console.ResetColor();
                         Console.WriteLine();
                         Console.WriteLine();
